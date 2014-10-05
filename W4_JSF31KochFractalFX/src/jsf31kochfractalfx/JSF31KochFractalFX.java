@@ -25,7 +25,7 @@ import javafx.stage.Stage;
  *
  * @author Nico Kuijpers
  */
-public class JSF31KochFractalFX extends Application implements Observable {
+public class JSF31KochFractalFX extends Application{
     
     // Zoom and drag
     private double zoomTranslateX = 0.0;
@@ -294,10 +294,6 @@ public class JSF31KochFractalFX extends Application implements Observable {
                 e.Y2 * zoom + zoomTranslateY,
                 e.color);
     }
-
-    private void Update(){
-        //do magic;
-    }
     
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
@@ -311,16 +307,13 @@ public class JSF31KochFractalFX extends Application implements Observable {
         launch(args);
         
         KochFractal kf = new KochFractal();
+        kf.addObserver(new KochObserver());
+        
         kf.setLevel(1);
         
         kf.generateLeftEdge();
         kf.generateBottomEdge();
         kf.generateRightEdge();
-        
-        kf.addObserver(new KochObserver());
-        
-        
-        
-        
+
     }
 }

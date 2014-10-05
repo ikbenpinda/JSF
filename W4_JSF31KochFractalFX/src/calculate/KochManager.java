@@ -7,8 +7,7 @@ package calculate;
 import java.util.*;
 import java.util.Observable;
 import java.util.Observer;
-import jsf31kochfractalfx.JSF31KochFractalFX;
-import javafx.application.Application;
+import jsf31kochfractalfx.*;
 import timeutil.TimeStamp;
 
 /**
@@ -17,7 +16,7 @@ import timeutil.TimeStamp;
  */
 public class KochManager implements Observer{
     
-    private Application application;
+    private JSF31KochFractalFX application;
     private ArrayList<Edge> arraylist;
     private KochFractal koch;
     
@@ -39,12 +38,12 @@ public class KochManager implements Observer{
         
         application.clearKochPanel();
         koch.generateLeftEdge();
-        koch.generateBottomEdge();
         koch.generateRightEdge();
+        koch.generateBottomEdge();        
         
         timestamp.setEnd();
         
-        application.setTextCalc();
+        application.setTextCalc("Time spent on edges is: " + timestamp.hashCode());
     }
 
     @Override
