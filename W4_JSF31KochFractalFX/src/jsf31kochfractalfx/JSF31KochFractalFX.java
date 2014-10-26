@@ -6,8 +6,8 @@ package jsf31kochfractalfx;
 
 import calculate.*;
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -305,15 +305,5 @@ public class JSF31KochFractalFX extends Application{
      */
     public static void main(String[] args) {
         launch(args);
-        
-        KochFractal kf = new KochFractal();
-        kf.addObserver(new KochObserver());
-        
-        kf.setLevel(1);
-        
-        kf.generateLeftEdge();
-        kf.generateBottomEdge();
-        kf.generateRightEdge();
-
     }
 }

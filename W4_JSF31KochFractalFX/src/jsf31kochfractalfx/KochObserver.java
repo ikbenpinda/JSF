@@ -10,7 +10,7 @@ import calculate.Edge;
 
 /**
  *
- * @author rage
+ * @author rage 
  */
 public class KochObserver implements Observer {
 
