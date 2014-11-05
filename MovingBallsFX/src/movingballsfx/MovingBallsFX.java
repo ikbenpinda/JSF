@@ -27,6 +27,9 @@ public class MovingBallsFX extends Application {
     private Thread[] threadArray = new Thread[10];
     private CheckBox[] checkBoxArray = new CheckBox[10];
     private Circle[] circleArray = new Circle[10];
+    // Make sure the same monitor is used by initializing it here,
+    // and then pass it as a parameter when the thread is created.
+    private Monitor m = new Monitor();
     private int minX = 100;
     private int maxX = 700;
     private int maxY = 400;
@@ -109,15 +112,15 @@ public class MovingBallsFX extends Application {
             // Reader selected: new red ball
             Ball b = new Ball(minX, maxX, minCsX, maxCsX, y, Color.RED);
             ballArray[index] = b;
-            Thread t = new Thread(new BallRunnable(b));
+            Thread t = new Thread(new BallRunnable(b, m));
             threadArray[index] = t;
             circleArray[index].setVisible(true);
             t.start();
         } else if (cb.isSelected() && index >= 5) { 
             // Writer selected: new blue ball
             Ball b = new Ball(minX, maxX, minCsX, maxCsX, y, Color.BLUE);
-            ballArray[index] = b;
-            Thread t = new Thread(new BallRunnable(b));
+            ballArray[index] = b;            
+            Thread t = new Thread(new BallRunnable(b, m));
             threadArray[index] = t;
             circleArray[index].setVisible(true);
             t.start();

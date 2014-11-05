@@ -13,8 +13,7 @@
             </extension>
         </buildExtensions>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
-            <name>JSF31KochFractalFX</name>
-            <explicit-platform explicit-source-supported="true"/>
+            <name>Week 5 JSF31KochFractalFX</name>
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>

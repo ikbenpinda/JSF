@@ -45,10 +45,18 @@ public class Ball {
         return speed;
     }
 
+    /**
+     * Indicates whether the ball is at the begin of the green zone.
+     * @return 
+     */
     public boolean isEnteringCs() {
         return xPos == minCsX;
     }
     
+    /**
+     * Indicates whether the ball is at the end of the green zone.
+     * @return 
+     */
     public boolean isLeavingCs() {
         return xPos == maxCsX;
     }

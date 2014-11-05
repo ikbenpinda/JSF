@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="JSF31KochFractalFX.jnlp">
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Week 7 JSF31MovingBallsFX.jnlp">
   <information>
-    <title>JSF31KochFractalFX</title>
+    <title>Week 7 JSF31MovingBallsFX</title>
     <vendor>admin</vendor>
     <description>null</description>
     <offline-allowed/>
@@ -11,11 +11,11 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="JSF31KochFractalFX.jar" size="18617" download="eager" />
+    <jar href="Week_7_JSF31MovingBallsFX.jar" size="8722" download="eager" />
   </resources>
-  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="JSF31KochFractalFX" >
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="Week 7 JSF31MovingBallsFX" >
     <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="jsf31kochfractalfx.JSF31KochFractalFX"  name="JSF31KochFractalFX" />
+  <jfx:javafx-desc  width="800" height="600" main-class="movingballsfx.MovingBallsFX"  name="Week 7 JSF31MovingBallsFX" />
   <update check="always"/>
 </jnlp>

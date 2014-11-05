@@ -12,7 +12,8 @@ import timeutil.TimeStamp;
 
 /**
  * Manager and global class for calculating fractals.
- * TODO - Make sure each thread doesnt redraw.
+ * If the application won't start and says it can't find main,
+ * restarting netbeans should work.
  * @author rage/Etienne (rage is my username on Linux Mint.)
  */
 public class KochManager{
