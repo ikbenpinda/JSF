@@ -1,6 +1,13 @@
 JSF
 ===
 
-Java Software Foundations // Assignments and Projects
+Java Software Foundations // Assignments 
 
-Note: This repository contains converted versions of the sheets and assignments for OpenOffice-less reading.
+Contains the assignments made for JSF.
+Made in NetBeans 7.3.1 / 8.0.1.
+
+In some files you might read:
+```
+@author rage
+```
+This is my username in Linux Mint. I assure you it's my own work. :^)
