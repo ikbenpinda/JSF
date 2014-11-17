@@ -26,10 +26,13 @@ public class KochManager{
     private Future<ArrayList<Edge>> f1;
     private Future<ArrayList<Edge>> f2;
     private Future<ArrayList<Edge>> f3;
+    public Task_GenerateEdge tge1;
+    public Task_GenerateEdge tge2;
+    public Task_GenerateEdge tge3;
     
     public CyclicBarrier cb;
     
-    public KochManager(JSF31KochFractalFX application) {        
+    public KochManager(JSF31KochFractalFX application) {
         this.application = application;
         this.edges = new ArrayList<>();
         this.pool = Executors.newFixedThreadPool(3);
@@ -42,32 +45,35 @@ public class KochManager{
      */
     public void changeLevel(int nxt){        
         
+        //Cancel running tasks.
+        if (tge1.isRunning()) {
+            tge1.cancel(true);
+        }
+        if (tge2.isRunning()) {
+            tge2.cancel(true);
+        }
+        if (tge3.isRunning()) {
+            tge3.cancel(true);
+        }
+
+        this.tge1 = new Task_GenerateEdge(this, new KochFractal(), Side.LEFT, nxt);
+        this.tge2 = new Task_GenerateEdge(this, new KochFractal(), Side.RIGHT, nxt);
+        this.tge3 = new Task_GenerateEdge(this, new KochFractal(), Side.BOTTOM, nxt);
+        
         //Prevents redrawing of previously generated edges.
-        clearEdges();        
-        
-        //Make 3 threads to calculate an individual side.        
-        Calculator c1 = new Calculator(this, new KochFractal(), nxt, Side.LEFT);
-        Calculator c2 = new Calculator(this, new KochFractal(), nxt, Side.RIGHT);
-        Calculator c3 = new Calculator(this, new KochFractal(), nxt, Side.BOTTOM);       
-        
+        clearEdges();                
+
+        Thread t1 = new Thread(tge1);
+        Thread t2 = new Thread(tge2);
+        Thread t3 = new Thread(tge3);
         
         //Measures the length of the multithreaded calculations.
         /*TimeStamp*/ threadTime = new TimeStamp();
         threadTime.setBegin();        
         
-        // Add threads to pool.        
-        f1 = pool.submit(c1);
-        f2 = pool.submit(c2);
-        f3 = pool.submit(c3);                
-        
-        try {
-            addEdges(f1.get());
-            addEdges(f2.get());
-            addEdges(f3.get());
-        } catch (InterruptedException | ExecutionException ex) {
-            System.out.println("Interrupted or Execution Exception thrown!");
-            Logger.getLogger(KochManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        t1.start();
+        t2.start();
+        t3.start();
         
         threadTime.setEnd();
         

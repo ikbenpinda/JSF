@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package jsf31kochfractalfx;
 
 import calculate.*;
@@ -36,12 +32,11 @@ public class JSF31KochFractalFX extends Application{
     private double lastDragX = 0.0;
     private double lastDragY = 0.0;
 
-    // Koch manager
-    // TO DO: Create class KochManager in package calculate
-    private KochManager kochManager;
-    
     // Current level of Koch fractal
     private int currentLevel = 1;
+    
+    // Koch manager    
+    private KochManager kochManager;    
     
     // Labels for level, nr edges, calculation time, and drawing time
     private Label labelLevel;
@@ -186,8 +181,13 @@ public class JSF31KochFractalFX extends Application{
         // Adjust edge for zoom and drag
         Edge e1 = edgeAfterZoomAndDrag(e);
         
-        // Set line color
-        gc.setStroke(e1.color);
+        // Set line color        
+        if (kochManager.tge1.isRunning() | kochManager.tge2.isRunning() | 
+                kochManager.tge3.isRunning())
+            gc.setStroke(Color.WHITE);
+        else
+            gc.setStroke(e1.color);
+        
         
         // Set line width depending on level
         if (currentLevel <= 3) {
