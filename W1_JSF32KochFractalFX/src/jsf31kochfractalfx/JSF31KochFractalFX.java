@@ -51,7 +51,7 @@ public class JSF31KochFractalFX extends Application{
     private Canvas kochPanel;
     private final int kpWidth = 500;
     private final int kpHeight = 500;
-    
+
     @Override
     public void start(Stage primaryStage) {
        
@@ -63,7 +63,6 @@ public class JSF31KochFractalFX extends Application{
         grid.setPadding(new Insets(25, 25, 25, 25));
         
         // For debug purposes
-        // Make de grid lines visible
         // grid.setGridLinesVisible(true);
         
         // Drawing panel for Koch fractal
@@ -180,15 +179,9 @@ public class JSF31KochFractalFX extends Application{
         
         // Adjust edge for zoom and drag
         Edge e1 = edgeAfterZoomAndDrag(e);
-        
-        // Set line color        
-        if (kochManager.tge1.isRunning() | kochManager.tge2.isRunning() | 
-                kochManager.tge3.isRunning())
-            gc.setStroke(Color.WHITE);
-        else
-            gc.setStroke(e1.color);
-        
-        
+	
+	gc.setStroke(e1.color);
+                            
         // Set line width depending on level
         if (currentLevel <= 3) {
             gc.setLineWidth(2.0);
@@ -203,7 +196,31 @@ public class JSF31KochFractalFX extends Application{
         // Draw line
         gc.strokeLine(e1.X1,e1.Y1,e1.X2,e1.Y2);
     }
-    
+
+    public void drawEdge(Edge e, Color color) {
+        // Graphics
+        GraphicsContext gc = kochPanel.getGraphicsContext2D();
+        
+        // Adjust edge for zoom and drag
+        Edge e1 = edgeAfterZoomAndDrag(e);	
+	
+	gc.setStroke(color);
+                            
+        // Set line width depending on level
+        if (currentLevel <= 3) {
+            gc.setLineWidth(2.0);
+        }
+        else if (currentLevel <=5 ) {
+            gc.setLineWidth(1.5);
+        }
+        else {
+            gc.setLineWidth(1.0);
+        }
+        
+        // Draw line
+        gc.strokeLine(e1.X1,e1.Y1,e1.X2,e1.Y2);
+    }
+	
     public void setTextNrEdges(String text) {
         labelNrEdgesText.setText(text);
     }

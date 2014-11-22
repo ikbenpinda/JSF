@@ -26,13 +26,10 @@ public class KochManager{
     private Future<ArrayList<Edge>> f1;
     private Future<ArrayList<Edge>> f2;
     private Future<ArrayList<Edge>> f3;
-    public Task_GenerateEdge tge1;
-    public Task_GenerateEdge tge2;
-    public Task_GenerateEdge tge3;
     
     public CyclicBarrier cb;
     
-    public KochManager(JSF31KochFractalFX application) {
+    public KochManager(JSF31KochFractalFX application) {        
         this.application = application;
         this.edges = new ArrayList<>();
         this.pool = Executors.newFixedThreadPool(3);
@@ -45,41 +42,37 @@ public class KochManager{
      */
     public void changeLevel(int nxt){        
         
-        //Cancel running tasks.
-        if (tge1.isRunning()) {
-            tge1.cancel(true);
-        }
-        if (tge2.isRunning()) {
-            tge2.cancel(true);
-        }
-        if (tge3.isRunning()) {
-            tge3.cancel(true);
-        }
-
-        this.tge1 = new Task_GenerateEdge(this, new KochFractal(), Side.LEFT, nxt);
-        this.tge2 = new Task_GenerateEdge(this, new KochFractal(), Side.RIGHT, nxt);
-        this.tge3 = new Task_GenerateEdge(this, new KochFractal(), Side.BOTTOM, nxt);
+        // Prevents redrawing of previously generated edges.
+        clearEdges();        
         
-        //Prevents redrawing of previously generated edges.
-        clearEdges();                
-
-        Thread t1 = new Thread(tge1);
-        Thread t2 = new Thread(tge2);
-        Thread t3 = new Thread(tge3);
-        
-        //Measures the length of the multithreaded calculations.
-        /*TimeStamp*/ threadTime = new TimeStamp();
+        // Make 3 threads to calculate an individual side.        
+        TaskImpl ti1 = new TaskImpl(application, this, new KochFractal(), Side.LEFT, nxt);
+        TaskImpl ti2 = new TaskImpl(application, this, new KochFractal(), Side.RIGHT, nxt);
+        TaskImpl ti3 = new TaskImpl(application, this, new KochFractal(), Side.BOTTOM, nxt);
+                
+        // Measures the length of the multithreaded calculations.
+        threadTime = new TimeStamp();
         threadTime.setBegin();        
         
-        t1.start();
-        t2.start();
-        t3.start();
+        // Add threads to pool.        
+        pool.submit(ti1);
+        pool.submit(ti2);
+        pool.submit(ti3);                
+        
+        try {
+            addEdges(f1.get());
+            addEdges(f2.get());
+            addEdges(f3.get());
+        } catch (InterruptedException | ExecutionException ex) {
+            System.out.println("Interrupted or Execution Exception thrown!");
+            Logger.getLogger(KochManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         threadTime.setEnd();
         
         application.setTextCalc(threadTime.toString());
         application.requestDrawEdges();
-        //drawEdges();
+        // drawEdges();
     }
     
     /**
@@ -88,7 +81,7 @@ public class KochManager{
     public synchronized void drawEdges(){       
         application.clearKochPanel();
         
-        //Sets timing for drawing said edges.
+        // Sets timing for drawing said edges.
         TimeStamp drawTime = new TimeStamp();
         drawTime.setBegin();                
         
@@ -96,16 +89,17 @@ public class KochManager{
             application.drawEdge(e);
         }
         
-        //For unknown reason drawing takes longer than calculating.
+        // For unknown reason drawing takes longer than calculating.
         drawTime.setEnd();
         
-        //Implicit conversion of int to string.
+        // Implicit conversion of int to string.
         application.setTextNrEdges("" + edges.size());
         application.setTextDraw(drawTime.toString());        
     }   
     
     /**
      * Synchronized method for adding edges.
+     * @param list an ArrayList of Edges.
      */
     public synchronized void addEdges(ArrayList<Edge> list){
         for (Edge e : list){
