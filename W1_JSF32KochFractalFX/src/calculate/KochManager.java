@@ -23,9 +23,9 @@ public class KochManager{
     private ArrayList<Edge> edges;
     private TimeStamp threadTime;
     private ExecutorService pool;
-    private Future<ArrayList<Edge>> f1;
-    private Future<ArrayList<Edge>> f2;
-    private Future<ArrayList<Edge>> f3;
+    private Future f1;
+    private Future f2;
+    private Future f3;
     
     public CyclicBarrier cb;
     
@@ -55,14 +55,14 @@ public class KochManager{
         threadTime.setBegin();        
         
         // Add threads to pool.        
-        pool.submit(ti1);
-        pool.submit(ti2);
-        pool.submit(ti3);                
+        f1 = pool.submit(ti1);
+        f2 = pool.submit(ti2);
+        f3 = pool.submit(ti3);                
         
         try {
-            addEdges(f1.get());
-            addEdges(f2.get());
-            addEdges(f3.get());
+            addEdges((ArrayList<Edge>)f1.get());
+            addEdges((ArrayList<Edge>)f2.get());
+            addEdges((ArrayList<Edge>)f3.get());
         } catch (InterruptedException | ExecutionException ex) {
             System.out.println("Interrupted or Execution Exception thrown!");
             Logger.getLogger(KochManager.class.getName()).log(Level.SEVERE, null, ex);

@@ -94,7 +94,7 @@ public class TaskImpl extends Task implements Observer{
      * @throws Exception
      */
     @Override
-    protected ArrayList<Edge> call() throws Exception {
+    protected Object call() throws Exception {
 
 	// GenerateEdge will call update() on this.
 	GenerateEdge();
@@ -103,7 +103,7 @@ public class TaskImpl extends Task implements Observer{
 	updateProgress(33, 100);
 	updateMessage("Edges: " + array.size());	
 
-	return array;
+	return (Object)array;
     }
     //</editor-fold>
 }
